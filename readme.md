@@ -1,0 +1,1 @@
+A minimal example of a pre-commit hook that runs flake8 on changed files
