@@ -1,0 +1,4 @@
+[flake8]
+; dummy configuration used by flake8 during the pre-commit hook
+; see https://flake8.pycqa.org/en/latest/user/configuration.html
+ignore = E266

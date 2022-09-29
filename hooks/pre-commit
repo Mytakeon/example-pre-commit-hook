@@ -1,19 +1,18 @@
 #!/bin/sh
 
 # This script runs before "git commit". Can be bypassed with the "git commit --no-verify" option.
-# Check if any of the changed files are .py files; if so, run the linter on them.
-# If the linter fails, abort the commit.
+# Checks if any of the changed files are .py files; if so, run the linter on them.
+echo "Running hooks/pre-commit..."
 
-# Get the list of changed files
-CHANGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
-[ -z "$CHANGED_FILES" ] && exit 0
+STAGED_FILES=$(git diff --cached --name-only --diff-filter=ACM | grep ".py$")
+[ -z "$STAGED_FILES" ] && exit 0
 
-# # Check if the linter is installed
-# if ! command -v flake8 >/dev/null 2>&1; then
-#     echo "flake8 is not installed. Please install it and try again."
-#     exit 1
-# fi
+# Check if the linter is installed
+if ! command -v python -m flake8 >/dev/null 2>&1; then
+    echo "Install flake8 with 'pip install flake8' before committing."
+    exit 1
+fi
 
-# # Run the linter
-# echo "Running linter..."
-# flake8 $CHANGED_FILES
+# Run flake8
+python -m flake8 $STAGED_FILES
+exit $?
